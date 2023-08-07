@@ -1,19 +1,19 @@
 var querystring = require("querystring")
+const fs = require("fs")
+const formidable = require("formidable")
+const formidableErrors = require("formidable")
+
 function inicio(response, postData) {
     console.log("Request handler 'start' was called.");
 
-    var content='<html>'+
-    '<head>'+
-    '<meta http-equiv="Content-Type" content="text/html; '+
-    'charset=UTF-8" />'+
-    '</head>'+
-    '<body>'+
-    '<form action="/subir" method="post">'+
-    '<textarea name="text" rows="20" cols="60"></textarea>'+
-    '<input type="submit" value="Submit text" />'+
-    '</form>'+
-    '</body>'+
-    '</html>';
+    var content = `
+    <h2>With Node.js <code>"http"</code> module</h2>
+    <form action="/subir"  enctype="multipart/form-data" method="post">
+      <div>Text field title: <input type="text" name="title" /></div>
+      <div>File: <input type="file" name="multipleFiles" multiple="multiple" /></div>
+      <input type="submit" value="Upload" />
+    </form>
+  `;
     response.writeHead(200, {
         "Content-Type": "text/html"
     });
@@ -23,15 +23,38 @@ function inicio(response, postData) {
 }
 
 
-function subir(response, postData) {
-    console.log("Subir se a llamado");
-    response.writeHead(200, {
-        "Content-Type": "text/plain"
+function subir(response, request) {
+    const form = new formidable.IncomingForm();
+
+    form.parse(request, function (error, fields, files) {
+        console.log("Parseado hecho")
+        let archivo= files.multipleFiles[0].filepath
+        fs.rename(archivo, "./tmp/test.png", function (error) {
+            if (error) {
+                fs.unlink("/tmp/test.png");
+                fs.rename(archivo, "/tmp/test.png");
+            }
+        });
+        response.writeHead(200, {
+            "Content-Type": "text/html"
+        });
+        response.write("received image:<br/>");
+        response.write("<img src='/mostrar' />");
+        response.end();
     });
-    response.write("Has enviado: "+ querystring.parse(postData).text);
-    response.end();
 }
 
-exports.inicio = inicio
 
-exports.subir = subir
+function mostrar(response) {
+    console.log("Request handler 'show' was called.");
+    response.writeHead(200, {
+        "Content-Type": "image/png"
+    });
+    fs.createReadStream("./tmp/test.png").pipe(response);
+}
+
+exports.inicio = inicio;
+
+exports.subir = subir;
+
+exports.mostrar = mostrar;

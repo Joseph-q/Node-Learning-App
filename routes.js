@@ -1,7 +1,7 @@
-function routes(handle,pathname,response,postData){
+function routes(handle,pathname,response,request){
 
     if (typeof handle[pathname] === 'function') {
-    handle[pathname](response,postData);
+    handle[pathname](response,request);
     } else {
     console.log("No existe la URL " + pathname);
     response.writeHead(404, {"Content-Type": "text/plain"});
