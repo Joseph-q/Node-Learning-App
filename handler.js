@@ -1,7 +1,5 @@
-var querystring = require("querystring")
 const fs = require("fs")
 const formidable = require("formidable")
-const formidableErrors = require("formidable")
 
 function inicio(response, postData) {
     console.log("Request handler 'start' was called.");
