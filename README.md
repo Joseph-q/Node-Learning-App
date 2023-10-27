@@ -1,4 +1,4 @@
-# Servidor Node.js para Subir y Visualizar Imágenes/The Node Beggine Book
+# Servidor Node.js para Subir y Visualizar Imágenes/The Node Beginner Book
 
 Este es mi primer servidor Node.js, que básicamente se utiliza para subir imágenes y luego visualizarlas. Para la gestión de imágenes, he utilizado la biblioteca "Formidable". Las imágenes se guardan en un directorio llamado "temp"
 
