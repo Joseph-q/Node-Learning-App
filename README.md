@@ -13,7 +13,7 @@ Para iniciar el proyecto, asegúrate de tener Node.js instalado y sigue estos pa
 3. Ejecuta el siguiente comando para iniciar la aplicación:
 
    ```bash
-   node app.js
+   node server.js
    ```
 
 ¡Listo! Ahora tu servidor estará en funcionamiento y podrás empezar a subir y visualizar imágenes.
